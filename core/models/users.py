@@ -30,13 +30,14 @@ class UserModel(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "tableNumber": ""
+                "tableNumber": "",
+                "orderId": ""
             }
         }
 
 
 class UpdateUserModel(BaseModel):
-    tableNumber: Optional[str]
+    orderId: Optional[PyObjectId]
 
     class Config:
         arbitrary_types_allowed = True

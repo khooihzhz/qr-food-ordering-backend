@@ -22,9 +22,10 @@ class PyObjectId(ObjectId):
 
 class OrderModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    done: bool = Field(...)
-    amount: int = Field(...)
     user: PyObjectId
+    amount: float = Field(...)
+    paid: bool = Field(...)
+    done: bool = Field(...)
     payment: Optional[PyObjectId]
     orders: str
 
@@ -36,11 +37,13 @@ class OrderModel(BaseModel):
 
 class UpdateOrderModel(BaseModel):
     user: Optional[PyObjectId]
-    amount: Optional[int]
+    amount: Optional[float]
     payment: Optional[PyObjectId]
+    paid: Optional[bool]
     done: Optional[bool]
     orders: Optional[str]
 
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+

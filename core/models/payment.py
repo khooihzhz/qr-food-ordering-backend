@@ -26,20 +26,10 @@ class PaymentModel(BaseModel):
     user: PyObjectId
     method: str
     timestamp: datetime
-    amount: int
+    amount: float
 
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 
-
-class PaymentModel(BaseModel):
-    user: Optional[PyObjectId]
-    method: Optional[str]
-    timestamp: Optional[datetime]
-    amount: Optional[int]
-
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
