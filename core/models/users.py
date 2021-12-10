@@ -31,13 +31,12 @@ class UserModel(BaseModel):
         schema_extra = {
             "example": {
                 "tableNumber": "",
-                "orderId": ""
             }
         }
 
 
 class UpdateUserModel(BaseModel):
-    orderId: Optional[PyObjectId]
+    tableNumber: Optional[str]
 
     class Config:
         arbitrary_types_allowed = True

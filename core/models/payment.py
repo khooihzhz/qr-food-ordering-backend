@@ -25,11 +25,21 @@ class PaymentModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     user: PyObjectId
     method: str
-    timestamp: datetime
+    timestamp: str
     amount: float
 
     class Config:
         allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
+class UpdatePaymentModel(BaseModel):
+    method: Optional[str]
+    timestamp: Optional[datetime]
+    amount: Optional[float]
+
+    class Config:
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 

@@ -18,8 +18,16 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+
 app.include_router(restaurants.router)
 app.include_router(users.router)
 app.include_router(menu.router)
 app.include_router(orders.router)
 app.include_router(payment.router)
+
+"""
+# APIv2
+app.include_router(users.router)
+app.include_router(orders.router)
+"""
+
