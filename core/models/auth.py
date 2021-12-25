@@ -20,33 +20,37 @@ class PyObjectId(ObjectId):
         field_schema.update(type="string")
 
 
-class RestaurantModel(BaseModel):
+class AuthModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    """
-    firstname: str = Field(...)
-    lastname: str = Field(...)
-    address: str = Field(...)
-    gender: str = Field(...)
-    icNo: str = Field(...)
-    contactNo: str = Field(...)
-    ssm: str = Field(...)
-    restaurantName: str = Field(...)
-    restaurantAddress: str = Field(...)
-    """
     email: str = Field(...)
     hashed_password: str = Field(...)
 
-    # password -> ?
-    # username -> string?
-    # email -> string?
-    # SSM -> string?
-    # phone number -> string?
-
-    # restaurant urlstring -> string?
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+        schema_extra = {
+            "example": {
+                "email": "thedeck@test.com",
+                "hashed_password": "test123"
+            }
+        }
 
 
+class UpdateAuthModel(BaseModel):
+    email : Optional[str]
+    hashed_password : Optional[str]
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
 

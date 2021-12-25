@@ -1,7 +1,10 @@
-from fastapi import APIRouter, Body, HTTPException, status
+from fastapi import APIRouter, Body, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from typing import Optional, List
+from datetime import datetime, timedelta
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
 from core.models.restaurants import RestaurantModel
 from core.config.config import db
 
@@ -15,9 +18,13 @@ router = APIRouter(
 @router.post("/", response_description="Add new restaurant", response_model=RestaurantModel)
 async def create_restaurant(restaurant: RestaurantModel = Body(...)):
     restaurant = jsonable_encoder(restaurant)
-    new_restaurant = await db["restaurants"].insert_one(restaurant)
-    created_restaurant = await db["restaurants"].find_one({"_id": new_restaurant.inserted_id})
-    return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_restaurant)
+    if (await db["restaurants"].find_one({"email": restaurant["email"]})) is None:
+        restaurant['hashed_password'] = get_password_hash(restaurant['hashed_password'])
+        new_restaurant = await db["restaurants"].insert_one(restaurant)
+        created_restaurant = await db["restaurants"].find_one({"_id": new_restaurant.inserted_id})
+        return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_restaurant)
+    else:
+        return JSONResponse(status_code=status.HTTP_409_CONFLICT, content="Email already exists!")
 
 
 @router.get("/", response_description="List all restaurants", response_model=List[RestaurantModel])

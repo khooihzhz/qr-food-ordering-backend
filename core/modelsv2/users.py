@@ -20,33 +20,19 @@ class PyObjectId(ObjectId):
         field_schema.update(type="string")
 
 
-class RestaurantModel(BaseModel):
+class UserModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    """
-    firstname: str = Field(...)
-    lastname: str = Field(...)
-    address: str = Field(...)
-    gender: str = Field(...)
-    icNo: str = Field(...)
-    contactNo: str = Field(...)
-    ssm: str = Field(...)
-    restaurantName: str = Field(...)
-    restaurantAddress: str = Field(...)
-    """
-    email: str = Field(...)
-    hashed_password: str = Field(...)
+    tableNumber: str = Field(...)
 
-    # password -> ?
-    # username -> string?
-    # email -> string?
-    # SSM -> string?
-    # phone number -> string?
-
-    # restaurant urlstring -> string?
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 
 
+class UpdateUserModel(BaseModel):
+    orderId: Optional[PyObjectId]
 
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
