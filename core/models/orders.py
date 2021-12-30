@@ -28,6 +28,7 @@ class OrderModel(BaseModel):
     done: bool = Field(...)
     payment: Optional[PyObjectId]
     orders: str
+    # restaurant_id
 
     class Config:
         allow_population_by_field_name = True

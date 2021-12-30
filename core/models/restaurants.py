@@ -22,17 +22,14 @@ class PyObjectId(ObjectId):
 
 class RestaurantModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    """
     firstname: str = Field(...)
     lastname: str = Field(...)
-    address: str = Field(...)
     gender: str = Field(...)
     icNo: str = Field(...)
     contactNo: str = Field(...)
     ssm: str = Field(...)
     restaurantName: str = Field(...)
     restaurantAddress: str = Field(...)
-    """
     email: str = Field(...)
     hashed_password: str = Field(...)
 
@@ -47,6 +44,20 @@ class RestaurantModel(BaseModel):
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+        schema_extra = {
+            "example": {
+                "firstname": "Hayden",
+                "lastname": "Audrey",
+                "gender": "male",
+                "icNo": "990804081234",
+                "contactNo": "01234567890",
+                "ssm": "ABC-123456",
+                "restaurantName": "The Deck",
+                "restaurantAddress": "Gelugor, USM Penang",
+                "email": "thedeck@test.com",
+                "hashed_password": "thisisahashedpasswordlul"
+            }
+        }
 
 
 

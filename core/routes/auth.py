@@ -5,6 +5,7 @@ from typing import Optional, List
 from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from core.models.auth import AuthModel, Token, TokenData
+from core.models.restaurants import RestaurantModel
 from core.config.config import db
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -17,10 +18,11 @@ router = APIRouter(
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Change secret Key Later
-SECRET_KEY = "add986cf5fa42e2abfce7f35be057f7d3909b663d84deee789e362486cf6aa1c"
+SECRET_KEY = "add986cf5fa42e2abfce7f35be057f7d3909b663d84deee789e362486cf6aa1c" # should not show here
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 def get_password_hash(password):
@@ -32,7 +34,7 @@ def verify_password(plain_password, hashed_password):
 
 
 async def get_account(email: str):
-    if (account := await db["accounts"].find_one({"email": email})) is not None:
+    if (account := await db["restaurants"].find_one({"email": email})) is not None:
         return account
 
 
@@ -63,6 +65,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    # verify your jwt token
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
@@ -71,20 +74,21 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         token_data = TokenData(email=email)
     except JWTError:
         raise credentials_exception
-    account = get_account(email=token_data.email)
+    account = await get_account(email=token_data.email)
     if account is None:
         raise credentials_exception
     return account
 
 
-@router.post("/signup", response_description="Add new restaurant account", response_model=AuthModel)
-async def create_account(account: AuthModel = Body(...)):
-    account = jsonable_encoder(account)
-    if (await db["accounts"].find_one({"email": account["email"]})) is None:
-        account['hashed_password'] = get_password_hash(account['hashed_password'])
-        new_account = await db["accounts"].insert_one(account)
-        created_account = await db["accounts"].find_one({"_id": new_account.inserted_id})
-        return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_account)
+@router.post("/signup", response_description="Add new restaurant account", response_model=RestaurantModel)
+async def create_restaurant(restaurant: RestaurantModel = Body(...)):
+    restaurant = jsonable_encoder(restaurant)
+
+    if (await db["restaurants"].find_one({"email": restaurant["email"]})) is None:
+        restaurant['hashed_password'] = get_password_hash(restaurant['hashed_password'])
+        new_restaurant = await db["restaurants"].insert_one(restaurant)
+        created_restaurant = await db["restaurants"].find_one({"_id": new_restaurant.inserted_id})
+        return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_restaurant)
     else:
         return JSONResponse(status_code=status.HTTP_409_CONFLICT, content="Account already exists!")
 
@@ -105,3 +109,13 @@ async def login_account(form_data: OAuth2PasswordRequestForm = Depends()):
         data={"sub": account["email"]}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+"""
+# Figure Out do u need this?
+
+async def create_account(account):
+    account['hashed_password'] = get_password_hash(account['hashed_password'])
+    new_account = await db["accounts"].insert_one(account)
+    created_account = await db["accounts"].find_one({"_id": new_account.inserted_id})
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_account)
+"""
