@@ -27,7 +27,7 @@ class MenuModel(BaseModel):
     description: str
     categories: str
     image: str
-    restaurant_id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    restaurant_id: PyObjectId
 
     class Config:
         allow_population_by_field_name = True

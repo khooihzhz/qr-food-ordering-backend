@@ -38,7 +38,7 @@ async def update_menu(id: str, menu: UpdateMenuModel = Body(...), restaurant: Re
 
 
 @router.delete("/{id}", response_description="Delete a menu item")
-async def delete_menu_item(id: str):
+async def delete_menu_item(id: str, restaurant: RestaurantModel = Depends(get_current_user)):
     delete_result = await db["menu"].delete_one({"_id": id})
 
     if delete_result.deleted_count == 1:

@@ -28,7 +28,7 @@ class OrderModel(BaseModel):
     done: bool = Field(...)
     payment: Optional[PyObjectId]
     orders: str
-    # restaurant_id
+    restaurant_id: PyObjectId
 
     class Config:
         allow_population_by_field_name = True
@@ -43,6 +43,7 @@ class UpdateOrderModel(BaseModel):
     paid: Optional[bool]
     done: Optional[bool]
     orders: Optional[str]
+    restaurant_id: Optional[PyObjectId]
 
     class Config:
         arbitrary_types_allowed = True
