@@ -40,8 +40,7 @@ async def update_menu(id: str, menu: UpdateMenuModel = Body(...), restaurant: Re
 @router.delete("/{id}", response_description="Delete a menu item")
 async def delete_menu_item(id: str, restaurant: RestaurantModel = Depends(get_current_user)):
     delete_result = await db["menu"].delete_one({"_id": id})
-
     if delete_result.deleted_count == 1:
-        return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
+        return JSONResponse(status_code=status.HTTP_200_OK)
 
     raise HTTPException(status_code=404, detail=f"item {id} not found")

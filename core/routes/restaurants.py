@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from core.models.orders import OrderModel
-from core.models.restaurants import RestaurantModel
+from core.models.restaurants import RestaurantModel, UpdateRestaurantModel
 from core.config.config import db
 from core.models.menu import MenuModel
 from core.routes.auth import get_current_user
@@ -35,6 +35,23 @@ async def list_menuitem(id: str):
     return menu_items
 
 
+@router.get("/profile", response_description="get restaurant details", response_model=RestaurantModel)
+async def show_profile(restaurant: RestaurantModel = Depends(get_current_user)):
+    return restaurant
 
 
+@router.put("/profile", response_description="Update restaurant profile", response_model=RestaurantModel)
+async def update_profile(update_restaurant: UpdateRestaurantModel = Body(...),
+                         restaurant: RestaurantModel = Depends(get_current_user)):
+    update_restaurant = {k: v for k, v in update_restaurant.dict().items() if v is not None}
+    if len(update_restaurant) >= 1:
+        update_result = await db["restaurants"].update_one({"_id":  restaurant['_id']}, {"$set": update_restaurant})
+        if update_result.modified_count == 1:
+            if (updated_restaurant := await db["restaurants"].find_one({"_id": restaurant['_id']})) is not None:
+                return updated_restaurant
+
+    if (existing_profile := await db["restaurants"].find_one({"_id": restaurant['_id']})) is not None:
+        return existing_profile
+
+    raise HTTPException(status_code=404, detail=f"item {id} not found")
 

@@ -60,4 +60,21 @@ class RestaurantModel(BaseModel):
         }
 
 
+class UpdateRestaurantModel(BaseModel):
+    firstname: Optional[str]
+    lastname: Optional[str]
+    gender: Optional[str]
+    icNo: Optional[str]
+    contactNo: Optional[str]
+    ssm: Optional[str]
+    restaurantName: Optional[str]
+    restaurantAddress: Optional[str]
+    email: Optional[str]
+    hashed_password: Optional[str]
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
 

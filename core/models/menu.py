@@ -40,6 +40,7 @@ class MenuModel(BaseModel):
                 "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam diam neque, fermentum eu sapien dignissim, facilisis ullamcorper lectus. Suspendisse vulputate vitae eros nec lobortis. Vivamus sagittis arcu vitae nulla placerat.",
                 "categories": "Main Dishes",
                 "image": "https://i.pravatar.cc",
+                "restaurant_id": "61ce7fb31c634173c1853e6b"     # example remove later
             }
         }
 
