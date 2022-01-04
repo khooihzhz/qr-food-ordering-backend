@@ -55,3 +55,10 @@ async def update_profile(update_restaurant: UpdateRestaurantModel = Body(...),
 
     raise HTTPException(status_code=404, detail=f"item {id} not found")
 
+
+@router.get("/{id}", response_description="get restaurant details", response_model=RestaurantModel)
+async def show_restaurant(id: str):
+    if (restaurant := await db["restaurants"].find_one({"_id": id})) is not None:
+        return restaurant
+
+    raise HTTPException(status_code=404, detail=f"restaurant {id} not found")
