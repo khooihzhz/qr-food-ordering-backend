@@ -34,13 +34,11 @@ docker build -t myimage .
 
 # run Docker container
 docker run -d --name mycontainer --env-file .env -p 80:80 myimage
-
-Note: You need to include your own env files containing :
+```
+**Note: You need to include your own env files containing**:
 - DB_URL
 - DB_NAME
 - SECRET_KEY
-
-```
 
 ## Usage
 
@@ -49,6 +47,14 @@ Go to
 > localhost:<your_port_choice>/docs
 
 to try out the API and read the Docs
+
+## Running Tests
+There are some tests written
+```
+pytest --disable-warnings -v
+```
+
+**Note: Not all routes are tested.**
 
 ## Acknowledgments
 
