@@ -11,7 +11,7 @@ This project is built with FastAPI and MongoDB
 Clone the repository
 
 ```
-git clone https://github.com/khooihzhz/cat304-api.git
+git clone https://github.com/khooihzhz/qr-food-ordering-backend.git
 ```
 
 Run Directly on your own machine
