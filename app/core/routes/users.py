@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Body, status, HTTPException
 from fastapi.responses import JSONResponse
-from core.models.users import UserModel, UpdateUserModel
+from app.core.models.users import UserModel, UpdateUserModel
 from typing import List
 from fastapi.encoders import jsonable_encoder
-from core.config.config import db
+from app.core.config.config import db
 
 router = APIRouter(
     prefix="/users",

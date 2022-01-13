@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Body, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-from typing import Optional, List
-from core.models.payment import PaymentModel, UpdatePaymentModel
-from core.models.orders import OrderModel
-from core.config.config import db
+from typing import List
+from app.core.models.payment import PaymentModel, UpdatePaymentModel
+from app.core.config.config import db
 
 router = APIRouter(
     prefix="/payment",

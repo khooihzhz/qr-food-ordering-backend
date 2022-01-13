@@ -1,15 +1,11 @@
-from fastapi import APIRouter, Body, HTTPException, status, Depends
-from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
-from typing import Optional, List
-from datetime import datetime, timedelta
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import APIRouter, Body, HTTPException, Depends
+from typing import List
 
-from core.models.orders import OrderModel
-from core.models.restaurants import RestaurantModel, UpdateRestaurantModel
-from core.config.config import db
-from core.models.menu import MenuModel
-from core.routes.auth import get_current_user
+from app.core.models.orders import OrderModel
+from app.core.models.restaurants import RestaurantModel, UpdateRestaurantModel
+from app.core.config.config import db
+from app.core.models.menu import MenuModel
+from app.core.routes.auth import get_current_user
 
 router = APIRouter(
     prefix="/restaurant",

@@ -4,9 +4,9 @@ from fastapi.encoders import jsonable_encoder
 from typing import Optional
 from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from core.models.auth import Token, TokenData
-from core.models.restaurants import RestaurantModel
-from core.config.config import db, SECRET_KEY
+from app.core.models.auth import Token, TokenData
+from app.core.models.restaurants import RestaurantModel
+from app.core.config.config import db, SECRET_KEY
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 

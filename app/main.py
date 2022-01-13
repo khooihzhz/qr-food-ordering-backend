@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from core.routes import restaurants, users, menu, orders, payment, auth
+from app.core.routes import menu, payment, restaurants, auth, users, orders
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -26,9 +26,4 @@ app.include_router(orders.router)
 app.include_router(payment.router)
 app.include_router(auth.router)
 
-"""
-# APIv2
-app.include_router(users.router)
-app.include_router(orders.router)
-"""
 

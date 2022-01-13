@@ -1,11 +1,10 @@
 from fastapi import APIRouter, Body, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-from typing import Optional, List
-from core.models.menu import MenuModel, UpdateMenuModel
-from core.config.config import db
-from core.models.restaurants import RestaurantModel
-from core.routes.auth import get_current_user
+from app.core.models.menu import MenuModel, UpdateMenuModel
+from app.core.config.config import db
+from app.core.models.restaurants import RestaurantModel
+from app.core.routes.auth import get_current_user
 
 router = APIRouter(
     prefix='/menu',
