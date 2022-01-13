@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Body, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from core.models.auth import AuthModel, Token, TokenData
+from core.models.auth import Token, TokenData
 from core.models.restaurants import RestaurantModel
-from core.config.config import db
+from core.config.config import db, SECRET_KEY
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
@@ -18,7 +18,7 @@ router = APIRouter(
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Change secret Key Later
-SECRET_KEY = "add986cf5fa42e2abfce7f35be057f7d3909b663d84deee789e362486cf6aa1c" # should not show here
+SECRET_KEY = SECRET_KEY
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
