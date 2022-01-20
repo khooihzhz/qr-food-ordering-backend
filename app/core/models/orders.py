@@ -50,3 +50,18 @@ class UpdateOrderModel(BaseModel):
         json_encoders = {ObjectId: str}
 
 
+class GetOrderModel(BaseModel):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    user: PyObjectId
+    amount: float = Field(...)
+    paid: bool = Field(...)
+    done: bool = Field(...)
+    payment: Optional[PyObjectId]
+    orders: str
+    restaurant_id: PyObjectId
+    timestamp: str
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}

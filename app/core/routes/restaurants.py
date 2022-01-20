@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body, HTTPException, Depends
 from typing import List
 
-from app.core.models.orders import OrderModel
+from app.core.models.orders import OrderModel, GetOrderModel
 from app.core.models.restaurants import RestaurantModel, UpdateRestaurantModel
 from app.core.config.config import db
 from app.core.models.menu import MenuModel
@@ -19,9 +19,12 @@ async def list_restaurants():
     return restaurants
 
 
-@router.get("/orders", response_description="Get restaurant's order", response_model=List[OrderModel])
+@router.get("/orders", response_description="Get restaurant's order", response_model=List[GetOrderModel])
 async def show_order(restaurant: RestaurantModel = Depends(get_current_user)):
     orders = await db["orders"].find({"restaurant_id": restaurant['_id']}).to_list(1000)
+    for order in orders:
+        if (payment := await db["payments"].find_one({"_id": str(order['payment'])})) is not None:
+            order['timestamp'] = payment['timestamp']
     return orders
 
 

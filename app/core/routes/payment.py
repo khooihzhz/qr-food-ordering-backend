@@ -44,6 +44,7 @@ async def update_payment(id: str, payment: UpdatePaymentModel):
 @router.get("/{id}", response_description="get single payment", response_model=PaymentModel)
 async def show_payment(id: str):
     if (payment := await db["payments"].find_one({"_id": id})) is not None:
+        print(payment)
         return payment
 
     raise HTTPException(status_code=404, detail=f"payment {id} not found")
