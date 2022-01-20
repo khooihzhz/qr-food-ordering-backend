@@ -19,8 +19,8 @@ async def list_restaurants():
     return restaurants
 
 
-@router.get("/orders/{id}", response_description="Get restaurant's order", response_model=OrderModel)
-async def show_order(id: str, restaurant: RestaurantModel = Depends(get_current_user)):
+@router.get("/orders", response_description="Get restaurant's order", response_model=List[OrderModel])
+async def show_order(restaurant: RestaurantModel = Depends(get_current_user)):
     orders = await db["orders"].find({"restaurant_id": restaurant['_id']}).to_list(1000)
     return orders
 
