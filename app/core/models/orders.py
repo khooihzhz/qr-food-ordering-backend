@@ -60,6 +60,7 @@ class GetOrderModel(BaseModel):
     orders: str
     restaurant_id: PyObjectId
     timestamp: str
+    method: str
 
     class Config:
         allow_population_by_field_name = True

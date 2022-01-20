@@ -25,6 +25,8 @@ async def show_order(restaurant: RestaurantModel = Depends(get_current_user)):
     for order in orders:
         if (payment := await db["payments"].find_one({"_id": str(order['payment'])})) is not None:
             order['timestamp'] = payment['timestamp']
+            order['method'] = payment['method']
+            
     return orders
 
 
