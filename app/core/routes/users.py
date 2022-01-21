@@ -6,7 +6,7 @@ from fastapi.encoders import jsonable_encoder
 from app.core.config.config import db
 
 router = APIRouter(
-    prefix="/users",
+    prefix="/api/users",
     tags=['Users']
 )
 

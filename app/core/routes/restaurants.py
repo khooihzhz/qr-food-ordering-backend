@@ -8,7 +8,7 @@ from app.core.models.menu import MenuModel
 from app.core.routes.auth import get_current_user
 
 router = APIRouter(
-    prefix="/restaurant",
+    prefix="/api/restaurant",
     tags=['Restaurant']
 )
 
@@ -26,7 +26,10 @@ async def show_order(restaurant: RestaurantModel = Depends(get_current_user)):
         if (payment := await db["payments"].find_one({"_id": str(order['payment'])})) is not None:
             order['timestamp'] = payment['timestamp']
             order['method'] = payment['method']
-            
+        else:
+            order['timestamp'] = "None"
+            order['method'] = "None"
+
     return orders
 
 

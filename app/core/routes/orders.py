@@ -6,7 +6,7 @@ from app.core.models.orders import OrderModel, UpdateOrderModel
 from app.core.config.config import db
 
 router = APIRouter(
-    prefix="/orders",
+    prefix="/api/orders",
     tags=['Orders']
 )
 

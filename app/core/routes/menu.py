@@ -7,7 +7,7 @@ from app.core.models.restaurants import RestaurantModel
 from app.core.routes.auth import get_current_user
 
 router = APIRouter(
-    prefix='/menu',
+    prefix='/api/menu',
     tags=['Menu']
 )
 

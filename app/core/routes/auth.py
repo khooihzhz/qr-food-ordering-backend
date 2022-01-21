@@ -11,7 +11,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 router = APIRouter(
-    prefix="/auth",
+    prefix="/api/auth",
     tags=['Auth']
 )
 

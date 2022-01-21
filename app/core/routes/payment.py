@@ -6,7 +6,7 @@ from app.core.models.payment import PaymentModel, UpdatePaymentModel
 from app.core.config.config import db
 
 router = APIRouter(
-    prefix="/payment",
+    prefix="/api/payment",
     tags=['Payment']
 )
 
